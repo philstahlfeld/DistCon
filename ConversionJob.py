@@ -79,8 +79,9 @@ class ConversionJob(object):
         self.update_status(ConversionJob.ST_FINISHED)
 
     def start_client(self):
-        start_command = "ssh pes014@{host_name} 'nohup python ~/DistCon/Client.py'".\
+        start_command = "ssh pes014@{host_name} 'cd DistCon; ./start_client'".\
                 format(host_name = self.client)
+        print start_command
         os.system(start_command)
         print "    Started client on %s" % self.client
         
