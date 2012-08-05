@@ -31,7 +31,7 @@ class ConversionJob(object):
 
     def find_next_job(self):
         self._connect()
-            job_command = "SELECT `movie` FROM `DistCon`.`Conversions` WHERE `client`='{host_name}' AND `state`='{state}';".\
+        job_command = "SELECT `movie` FROM `DistCon`.`Conversions` WHERE `client`='{host_name}' AND `state`='{state}';".\
                     format(host_name = self.client, state = ConversionJob.ST_READY)
 
         while true:
