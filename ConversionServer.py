@@ -13,6 +13,11 @@ class ConversionServer(object):
 
         print "Creating conversion jobs"
         self.jobs = ConversionServer._create_jobs(movie_client_pairs)
+
+    def initialize_clients(self):
+        print "Starting clients"
+        for job in self.jobs:
+            job.start_client()
         
 
     def start(self):
