@@ -29,6 +29,20 @@ class ConversionJob(object):
         self.con.commit()
         self.con.close()
 
+    def find_next_job(self):
+        self._connect()
+            job_command = "SELECT `movie` FROM `DistCon`.`Conversions` WHERE `client`='{host_name}' AND `state`='{state}';".\
+                    format(host_name = self.client, state = ConversionJob.ST_READY)
+
+        while true:
+            print "Looking for job"
+            if self.cursor.execute(job_command) > 0:
+                self.movie = self.cursor.fetchone()
+                break
+            time.sleep(1)
+
+        self._disconnect()
+
     def send_to_database(self):
         self._connect()
         new_conversion = """INSERT INTO `DistCon`.`Conversions` (movie, client) VALUES ('%s', '%s');"""
@@ -38,7 +52,7 @@ class ConversionJob(object):
     def send_to_client(self):
         copy_command = "scp -q {movie} pes014@{client}:/tmp/".\
                 format(movie = self.movie, client = self.client)
-        print copy_command
+
         os.system(copy_command)
 
         self.update_status(ConversionJob.ST_READY)
