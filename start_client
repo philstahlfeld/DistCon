@@ -1,0 +1,4 @@
+#!/bin/bash
+
+nohup python client.py < /dev/null > client.log 2>&1 &
+sleep 1

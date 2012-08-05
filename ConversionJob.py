@@ -29,8 +29,10 @@ class ConversionJob(object):
         self.con.commit()
         self.con.close()
 
-    def find_next_job(self):
+    def find_next_job(self):        
+        print "connecting"
         self._connect()
+        print "connected"
         job_command = "SELECT `movie` FROM `DistCon`.`Conversions` WHERE `client`='{host_name}' AND `state`='{state}';".\
                     format(host_name = self.client, state = ConversionJob.ST_READY)
         print job_command
