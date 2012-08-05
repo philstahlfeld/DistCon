@@ -1,7 +1,7 @@
 from ConversionJob import *
 import socket
 
-class ConversionServer(object):
+class ConversionClient(object):
 
     def __init__(self):
         self.name = socket.gethostname()
