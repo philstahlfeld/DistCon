@@ -14,10 +14,10 @@ class ConversionJob(object):
 
     def __init__(self, movie, client):
         self.movie = re.escape(movie)
-        self.client = re.escape(client)
+        self.client = client
 
     def _connect(self):
-        host = "localhost"
+        host = "68.48.166.57"
         username = "root"
         password ="myr00t"
         database = "DistCon"
@@ -33,11 +33,12 @@ class ConversionJob(object):
         self._connect()
         job_command = "SELECT `movie` FROM `DistCon`.`Conversions` WHERE `client`='{host_name}' AND `state`='{state}';".\
                     format(host_name = self.client, state = ConversionJob.ST_READY)
+        print job_command
 
-        while true:
+        while True:
             print "Looking for job"
             if self.cursor.execute(job_command) > 0:
-                self.movie = self.cursor.fetchone()
+                self.movie = re.escape(self.cursor.fetchone()[0])
                 break
             time.sleep(1)
 
